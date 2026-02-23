@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Letter</title>
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+  body {
+    background-color: #CBC3E3;
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Montserrat', sans-serif;
+    color: #2b2b2b;
+    padding: 1rem;
+    box-sizing: border-box;
+  }
+
+  .topnav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    overflow: hidden;
+    background-color: #333;
+    z-index: 100;
+  }
+
+  .topnav a {
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+  }
+
+  .topnav a:hover {
+    background-color: #ddd;
+    color: black;
+  }
+
+  .topnav a.active {
+    background-color: #04AA6D;
+    color: white;
+  }
+
+  .letter {
+    width: 100%;
+    max-width: 500px;
+    border: 1px solid #d6d6d6;
+    background: #fafafa;
+    padding: 2rem;
+    cursor: pointer;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+    position: relative;
+    text-align: left;
+    margin-top: 60px; /* so it doesn't hide under topnav */
+    font-family: 'Libre Baskerville', serif; /* soft, handwritten feel */
+    font-size: 1rem;
+    line-height: 1.7;
+    color: #333;
+  }
+
+  .letter:hover {
+    box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+    transform: translateY(-2px);
+  }
+
+  .label {
+    font-size: 1.1rem;
+    color: #555;
+    margin-bottom: 1rem;
+    font-weight: 600;
+  }
+
+  .closed-text {
+    font-size: 0.95rem;
+    color: #888;
+  }
+
+  .content {
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: opacity 0.6s ease, max-height 0.6s ease;
+  }
+
+  .letter.open .content {
+    opacity: 1;
+    max-height: 3000px; /* enough for long letters */
+    margin-top: 1rem;
+  }
+
+  .letter.open .closed-text {
+    display: none;
+  }
+</style>
+</head>
+<body>
+
+<div class="topnav">
+  <a href="home.html">Home</a>
+  <a href="compliment.html">Compliments!</a>
+  <a class="active" href="threepage.html">Silly</a>
+  <a href="present.html">Presents</a>
+  <a href="tictactoe.html">Tic Tac Toe?</a>
+  		<a href="Otter.html">Otter Cam</a>
+</div>
+
+<div class="letter" id="letter">
+  <div class="label">Dear Marina,</div>
+
+  <div class="closed-text">
+    click to open
+  </div>
+
+  <div class="content">
+    <p>
+      You are such an incredible person who I am so happy to know. You light up my life and I don't know what I'd do without such an amazing presence in my life.
+    </p>
+    <p>
+      You've been there for me during my worst moments and that means more than you'll ever know. I truly do mean it when I say I probably wouldn't be here without you. 
+    </p>
+    <p>
+      Your patience, kindness, and overall lovely personality always makes me feel seen. I want nothing but the best for you because that's what you deserve. As long as I can make you smile the same way you made me smile I'll be happy.
+    </p>
+    <p>
+      Please make sure to take care of yourself by the way. I worry about you so much because I care about you more than I care about anyone else. I know it's a little sad but I'm not lying. You're the highlight of my day and all I'd like is for you to be healthy. I sometimes can't sleep properly at night because I'm thinking about if you've slept yet.
+    </p>
+    <p>
+      It's been amazing knowing you for this long. I wouldn't have it any other way. Spending time with you has definitely become the thing I look the most forward to. You're my safe space and I hope that never changes no matter how much time passes.
+    </p>
+    <p>
+      If I can be totally honest I see you like an older sister of mine. Is that weird? Probably...
+    </p>
+    <p>
+      But it's true. I look up to you, I care about you so much, and I love you the same way I'd love a family member. I've always wanted an older sibling my entire life, because my parents were never exactly there for me and I felt so lonely. When I met you, it felt like you filled that sense of emptiness I had for so long. You were there for me all the time, and you listened to every one of my problems. I learned how to laugh and smile again thanks to you, and I'd trust you with my life. 
+    </p>
+    <p>
+      I know it's probably dumb to think of you as an older sister, but that really is how I view you most of the time. I want nothing for the best for you. You fill the world with wonder that wasn't there before. I can't wait to see what else you do with your life. Your actions and personality are something I admire, and it's no wonder you're a role model of mine. 
+    </p>
+    <p>
+      I hope this letter helps you think a little more positively about yourself. I'm not saying all of this as a joke or a prank. I mean every single word. From the bottom of my heart. You're the best. You don't deserve to look down on yourself when you make the lives of those around you infinitely better. I understand that learning to be proud of yourself is hard, but I'll always be here reminding you that every single compliment that comes your way is 100% justified.
+    </p>
+    <p>
+      Please please please take care of yourself. Thanks for putting up with me after all this time and being the big sis I never had. I hope I haven't weirded you out too much? If so just tell me and I can delete this. 
+    </p>
+    <p>
+      Love ya lots
+    </p>
+    <p>
+      Sincerely,<br>
+      Siwon
+    </p>
+  </div>
+</div>
+
+<script>
+  const letter = document.getElementById("letter");
+  letter.addEventListener("click", () => {
+    letter.classList.toggle("open");
+  });
+</script>
+
+</body>
+</html>
