@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Teehee</title>
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f4f4f6;
+      font-family: Inter, system-ui, sans-serif;
+      color: #2b2b2b;
+    }
+
+    .container {
+      text-align: center;
+      max-width: 500px;
+      padding: 2rem;
+    }
+
+    .compliment {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      margin-bottom: 2rem;
+      min-height: 3em;
+    }
+
+    button {
+      background: none;
+      border: 1px solid #d0d0d0;
+      padding: 0.6rem 1.2rem;
+      font-size: 0.9rem;
+      cursor: pointer;
+      color: #444;
+      transition: background 0.2s ease, opacity 0.2s ease;
+    }
+
+    button:hover {
+      background: rgba(0, 0, 0, 0.03);
+    }
+
+    button:active {
+      opacity: 0.7;
+    }
+    	#flyButton {
+  position: relative; /* Needed for animations */
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: transform 1s ease, opacity 1s ease;
+}
+
+#flyButton.fly-off {
+  transform: translate(500px, -500px); /* Adjust direction and distance */
+  opacity: 0; /* Makes the button fade out */
+}
+	hr {
+  border: none;
+  height: 2px; /* Adjust thickness */
+  background-color: black; /* Set to the desired color */
+  margin: 20px 0; /* Adjust spacing */
+}
+.topnav {
+  overflow: hidden;
+  background-color: #333;
+}
+.topnav a {
+  float: left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.topnav a.active {
+  background-color: #04AA6D;
+  color: white;
+}
+	p {
+  font-family: papyrus;
+  font-size: 20px;
+  color: #000000;
+}
+h1 {
+  font-family: sans-serif;
+  font-size: 20px;
+  color: #000000;
+}
+h2 {
+  font-family: papyrus;
+  font-size: 20px;
+  color: #000000;
+}
+h3 {
+  font-family: papyrus;
+  font-size: 20px;
+  color: #000000;
+}
+h4 {
+  font-family: papyrus;
+  font-size: 20px;
+  color: #000000;
+}
+div{
+  font-family: papyrus;
+  font-size: 20px;
+  color: #000000;
+}
+body {
+	background-color: #CBC3E3;
+}
+	  
+  body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 100vh;
+    font-family: Inter, sans-serif;
+    background: #f4f4f6;
+    margin: 0;
+    padding: 2rem;
+  }
+
+  h1 {
+    margin-bottom: 1rem;
+  }
+
+  .board {
+    display: grid;
+    grid-template-columns: repeat(3, 100px);
+    grid-template-rows: repeat(3, 100px);
+    gap: 5px;
+  }
+
+  .cell {
+    width: 100px;
+    height: 100px;
+    background: #fafafa;
+    border: 2px solid #d6d6d6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+
+  .cell:hover {
+    background: #e2cfc1;
+  }
+
+  .status {
+    margin-top: 1rem;
+    font-size: 1.2rem;
+  }
+
+  button {
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+</style>
+<div class="topnav">
+  <a href="home.html">Home</a>
+  <a href="compliment.html">Compliments!</a>
+  <a href="threepage.html">Silly</a>
+	    <a href="present.html">Presents</a>
+		<a class="active" href="tictactoe.html">Tic Tac Toe?</a>
+			<a href="Otter.html">Otter Cam</a>
+</div>
+<body>
+
+<h1>Tic Tac Toe</h1>
+<div class="board" id="board"></div>
+<div class="status" id="status">Your turn!</div>
+<button id="reset">Restart</button>
+
+<script>
+  const boardEl = document.getElementById('board');
+  const statusEl = document.getElementById('status');
+  const resetBtn = document.getElementById('reset');
+
+  let board = Array(9).fill(null);
+  let gameOver = false;
+
+  function renderBoard() {
+    boardEl.innerHTML = '';
+    board.forEach((cell, idx) => {
+      const cellEl = document.createElement('div');
+      cellEl.classList.add('cell');
+      cellEl.textContent = cell || '';
+      cellEl.addEventListener('click', () => handlePlayerMove(idx));
+      boardEl.appendChild(cellEl);
+    });
+  }
+
+  function handlePlayerMove(idx) {
+    if (gameOver || board[idx]) return;
+
+    board[idx] = 'X';
+    renderBoard();
+
+    if (checkWinner('X')) {
+      statusEl.textContent = "You win!";
+      gameOver = true;
+      return;
+    } else if (board.every(c => c)) {
+      statusEl.textContent = "It's a tie!";
+      gameOver = true;
+      return;
+    }
+
+    statusEl.textContent = "Bot's turn...";
+    setTimeout(botMove, 500); // delay for bot
+  }
+
+  function botMove() {
+    // simple bot: random empty cell
+    const emptyIndices = board.map((c, i) => c ? null : i).filter(i => i !== null);
+    if (emptyIndices.length === 0) return;
+
+    const move = emptyIndices[Math.floor(Math.random() * emptyIndices.length)];
+    board[move] = 'O';
+    renderBoard();
+
+    if (checkWinner('O')) {
+      statusEl.textContent = "Bot wins!";
+      gameOver = true;
+    } else if (board.every(c => c)) {
+      statusEl.textContent = "It's a tie!";
+      gameOver = true;
+    } else {
+      statusEl.textContent = "Your turn!";
+    }
+  }
+
+  function checkWinner(player) {
+    const wins = [
+      [0,1,2],[3,4,5],[6,7,8],
+      [0,3,6],[1,4,7],[2,5,8],
+      [0,4,8],[2,4,6]
+    ];
+    return wins.some(line => line.every(idx => board[idx] === player));
+  }
+
+  resetBtn.addEventListener('click', () => {
+    board = Array(9).fill(null);
+    gameOver = false;
+    statusEl.textContent = "Your turn!";
+    renderBoard();
+  });
+
+  renderBoard();
+</script>
+
+</body>
+</html>
