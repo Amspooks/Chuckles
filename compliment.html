@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>For you</title>
+  <style>
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column; /* stack nav on top, content below */
+  align-items: center;
+  background: #f4f4f6;
+  font-family: Inter, system-ui, sans-serif;
+  color: #2b2b2b;
+}
+
+
+    .container {
+      text-align: center;
+      max-width: 500px;
+      padding: 2rem;
+		    margin-top: 2rem;
+    }
+
+    .compliment {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      margin-bottom: 2rem;
+      min-height: 3em;
+    }
+
+button {
+  background: none;
+  border: 2px solid #000; /* black outline */
+  padding: 0.6rem 1.2rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+  color: #000;
+  transition: background 0.2s ease, opacity 0.2s ease;
+}
+
+button:hover {
+  background: rgba(0, 0, 0, 0.08); /* slightly darker hover */
+}
+
+button:active {
+  opacity: 0.7;
+}
+
+    	#flyButton {
+  position: relative; /* Needed for animations */
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: transform 1s ease, opacity 1s ease;
+}
+
+#flyButton.fly-off {
+  transform: translate(500px, -500px); /* Adjust direction and distance */
+  opacity: 0; /* Makes the button fade out */
+}
+	hr {
+  border: none;
+  height: 2px; /* Adjust thickness */
+  background-color: black; /* Set to the desired color */
+  margin: 20px 0; /* Adjust spacing */
+}
+.topnav {
+  overflow: hidden;
+  background-color: #333;
+}
+.topnav a {
+  float: left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.topnav a.active {
+  background-color: #04AA6D;
+  color: white;
+}
+	p {
+  font-family: papyrus;
+  font-size: 20px;
+  color: #000000;
+}
+h1 {
+  font-family: sans-serif;
+  font-size: 20px;
+  color: #000000;
+}
+h2 {
+  font-family: papyrus;
+  font-size: 20px;
+  color: #000000;
+}
+h3 {
+  font-family: papyrus;
+  font-size: 20px;
+  color: #000000;
+}
+h4 {
+  font-family: papyrus;
+  font-size: 20px;
+  color: #000000;
+}
+div{
+  font-family: papyrus;
+  font-size: 20px;
+  color: #000000;
+}
+body {
+	background-color: #CBC3E3;
+}
+</style>
+<div class="topnav">
+  <a href="home.html">Home</a>
+  <a class="active" href="compliment.html">Compliments!</a>
+  <a href="threepage.html">Silly</a>
+	    <a href="present.html">Presents</a>
+		<a href="tictactoe.html">Tic Tac Toe?</a>
+		<a href="Otter.html">Otter Cam</a>
+</div>
+<body>
+  <div class="container">
+    <div id="compliment" class="compliment"></div>
+    <button id="next">another</button>
+  </div>
+
+  <script>
+    const compliments = [
+      "You make my life a lot better.",
+      "You’re gentle in a way that makes me feel safe.",
+      "You make me feel seen.",
+      "You're one of the kindest people I've ever met.",
+      "I trust you with anything.",
+      "You make me smile and laugh on the hardest days.",
+      "I look up to you so much.",
+      "You're somebody I want to grow up to be like.",
+      "Every single day I'm thankful to have met you.",
+      "The world is a lot better with you in it.",
+      "I could do anything with you and still be entertained.",
+      "I wish I had met you a lot sooner.",
+      "You're considerate and compassionate.",
+      "You always listen.",
+      "You give fire hugs.",
+      "You're like the comfort character in every game.",
+      "I admire how you think and I hope I can think in a similar way to you one day.",
+      "You make a difference just by being you.",
+      "You choose every word with care.",
+      "You treat me with respect and kindness.",
+      "You reply so thoughtfully and it means so much.",
+      "You don't force people to open up, but you're here to listen.",
+      "You care more than anyone I've met.",
+	"You make all my worries melt away.",
+      "Most goated and ripped senior",
+      "Time flies by whenever I chat with you.",
+      "There's nobody else I'd like to talk about weird crap with.",
+      "You're my role model.",
+      "I value and remember everything you say.",
+      "My best memories started after meeting you.",
+      "I'm not afraid to be myself with you.",
+    ];
+
+    const complimentEl = document.getElementById("compliment");
+    const button = document.getElementById("next");
+
+    let lastIndex = -1;
+
+    function showRandomCompliment() {
+      let index;
+      do {
+        index = Math.floor(Math.random() * compliments.length);
+      } while (index === lastIndex && compliments.length > 1);
+
+      lastIndex = index;
+      complimentEl.textContent = compliments[index];
+    }
+
+    showRandomCompliment();
+    button.addEventListener("click", showRandomCompliment);
+  </script>
+</body>
+		  <audio src="OMORI OST - 001 Title [Extended].mp3" autoplay>
+<p>If you are reading this, it is because your browser does not support the audio element.     </p>
+<embed src="/music/good_enough.mp3" width="180" height="90" hidden="true" />
+</audio>
+</html>
