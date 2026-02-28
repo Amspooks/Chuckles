@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Images!!!!</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #f4f4f4;
+    }
+
+    .slideshow-container {
+      position: relative;
+      max-width: 600px;
+      margin: 50px auto;
+    }
+
+    .slide {
+      display: none;
+    }
+
+    img {
+      width: 100%;
+      border-radius: 10px;
+    }
+
+    .caption {
+      position: absolute;
+      bottom: 8px;
+      left: 0;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      color: white;
+      padding: 10px;
+      border-radius: 0 0 10px 10px;
+    }
+
+    .prev, .next {
+      cursor: pointer;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      padding: 10px;
+      color: white;
+      font-weight: bold;
+      font-size: 20px;
+      background: rgba(0, 0, 0, 0.5);
+      border-radius: 50%;
+    }
+
+    .prev { left: 10px; }
+    .next { right: 10px; }
+  </style>
+</head>
+<body>
+
+<h2>Silly Boy</h2>
+
+<div class="slideshow-container">
+
+  <div class="slide">
+    <img src="char12.jpg" alt="Image 1">
+    <div class="caption">Sugma</div>
+  </div>
+
+  <div class="slide">
+    <img src="char13.jpg" alt="Image 2">
+    <div class="caption">Dick</div>
+  </div>
+
+  <div class="slide">
+    <img src="char14.jpg" alt="Image 3">
+    <div class="caption">Balls</div>
+  </div>
+
+  <div class="prev" onclick="changeSlide(-1)">❮</div>
+  <div class="next" onclick="changeSlide(1)">❯</div>
+
+</div>
+
+<script>
+  let currentSlide = 0;
+  const slides = document.getElementsByClassName("slide");
+
+  function showSlide(index) {
+    if (index >= slides.length) currentSlide = 0;
+    if (index < 0) currentSlide = slides.length - 1;
+
+    for (let i = 0; i < slides.length; i++) {
+      slides[i].style.display = "none";
+    }
+
+    slides[currentSlide].style.display = "block";
+  }
+
+  function changeSlide(n) {
+    currentSlide += n;
+    showSlide(currentSlide);
+  }
+
+  showSlide(currentSlide);
+</script>
+
+</body>
+</html>
