@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Stay Determined</title>
+    <style>
+        body {
+            margin: 0;
+            background-color: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: "Courier New", monospace;
+            color: white;
+            flex-direction: column;
+        }
+
+        #battleBox {
+            width: 400px;
+            height: 300px;
+            border: 4px solid white;
+            position: relative;
+            overflow: hidden;
+            background-color: #111;
+        }
+
+        #heart {
+            width: 20px;
+            height: 20px;
+            background-color: red;
+            position: absolute;
+            left: 190px;
+            top: 140px;
+        }
+
+        #message {
+            margin-top: 20px;
+            height: 40px;
+            font-size: 18px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="battleBox">
+        <div id="heart"></div>
+    </div>
+
+    <div id="message">Use arrow keys to move.</div>
+
+    <script>
+        const heart = document.getElementById("heart");
+        const box = document.getElementById("battleBox");
+        const message = document.getElementById("message");
+
+        let x = 190;
+        let y = 140;
+        const speed = 5;
+
+        let survivedTime = 0;
+        let gameActive = true;
+
+        document.addEventListener("keydown", function(e) {
+            if (!gameActive) return;
+
+            if (e.key === "ArrowUp") y -= speed;
+            if (e.key === "ArrowDown") y += speed;
+            if (e.key === "ArrowLeft") x -= speed;
+            if (e.key === "ArrowRight") x += speed;
+
+            // Keep inside box
+            x = Math.max(0, Math.min(box.clientWidth - 20, x));
+            y = Math.max(0, Math.min(box.clientHeight - 20, y));
+
+            heart.style.left = x + "px";
+            heart.style.top = y + "px";
+        });
+
+        // Timer system
+        const interval = setInterval(() => {
+            if (!gameActive) return;
+
+            survivedTime++;
+
+            if (survivedTime === 5) {
+                message.innerText = "Climb to the top";
+            }
+            if (survivedTime === 8) {
+                message.innerText = "You got this";
+            }
+            if (survivedTime === 12) {
+                message.innerText = "Potassium";
+            }
+            if (survivedTime === 16) {
+                message.innerText = "My goat";
+            }
+            if (survivedTime === 20) {
+                message.innerText = "Stay determined.";
+                gameActive = false;
+            }
+        }, 1000);
+    </script>
+
+</body>
+</html>
