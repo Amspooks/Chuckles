@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Stay Determined</title>
     <style>
         body {
             margin: 0;
@@ -74,65 +73,136 @@
 	<a href="Otter.html">Otter Cam</a>
 	<a href="image.html">Secret</a>
 </div>
+    <title>Celeste</title>
+    <style>
+        body {
+            margin: 0;
+            background: #1a1a2e;
+            overflow: hidden;
+            font-family: monospace;
+            color: white;
+        }
 
-    <div id="battleBox">
-        <div id="heart"></div>
-    </div>
+        canvas {
+            display: block;
+            margin: auto;
+            background: #16213e;
+            border: 4px solid white;
+        }
 
-    <div id="message">Use arrow keys to move.</div>
+        #message {
+            text-align: center;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
 
-    <script>
-        const heart = document.getElementById("heart");
-        const box = document.getElementById("battleBox");
-        const message = document.getElementById("message");
+<canvas id="game" width="800" height="400"></canvas>
+<div id="message">Reach the flag.</div>
 
-        let x = 190;
-        let y = 140;
-        const speed = 5;
+<script>
+const canvas = document.getElementById("game");
+const ctx = canvas.getContext("2d");
+const message = document.getElementById("message");
 
-        let survivedTime = 0;
-        let gameActive = true;
+let keys = {};
+document.addEventListener("keydown", e => keys[e.key] = true);
+document.addEventListener("keyup", e => keys[e.key] = false);
 
-        document.addEventListener("keydown", function(e) {
-            if (!gameActive) return;
+const gravity = 0.5;
 
-            if (e.key === "ArrowUp") y -= speed;
-            if (e.key === "ArrowDown") y += speed;
-            if (e.key === "ArrowLeft") x -= speed;
-            if (e.key === "ArrowRight") x += speed;
+let player = {
+    x: 50,
+    y: 300,
+    width: 20,
+    height: 20,
+    dx: 0,
+    dy: 0,
+    onGround: false
+};
 
-            // Keep inside box
-            x = Math.max(0, Math.min(box.clientWidth - 20, x));
-            y = Math.max(0, Math.min(box.clientHeight - 20, y));
+let platforms = [
+    {x: 0, y: 350, width: 800, height: 50},
+    {x: 150, y: 280, width: 120, height: 20},
+    {x: 320, y: 220, width: 120, height: 20},
+    {x: 500, y: 170, width: 120, height: 20},
+    {x: 680, y: 130, width: 100, height: 20}
+];
 
-            heart.style.left = x + "px";
-            heart.style.top = y + "px";
-        });
+let flag = { x: 740, y: 90, width: 20, height: 40 };
 
-        // Timer system
-        const interval = setInterval(() => {
-            if (!gameActive) return;
+function update() {
+    // Movement
+    if (keys["ArrowLeft"]) player.dx = -3;
+    else if (keys["ArrowRight"]) player.dx = 3;
+    else player.dx = 0;
 
-            survivedTime++;
+    // Jump
+    if (keys["ArrowUp"] && player.onGround) {
+        player.dy = -10;
+        player.onGround = false;
+    }
 
-            if (survivedTime === 5) {
-                message.innerText = "Climb to the top";
+    player.dy += gravity;
+    player.x += player.dx;
+    player.y += player.dy;
+
+    player.onGround = false;
+
+    // Platform collision
+    platforms.forEach(p => {
+        if (
+            player.x < p.x + p.width &&
+            player.x + player.width > p.x &&
+            player.y < p.y + p.height &&
+            player.y + player.height > p.y
+        ) {
+            if (player.dy > 0) {
+                player.y = p.y - player.height;
+                player.dy = 0;
+                player.onGround = true;
             }
-            if (survivedTime === 8) {
-                message.innerText = "You got this";
-            }
-            if (survivedTime === 12) {
-                message.innerText = "Potassium";
-            }
-            if (survivedTime === 16) {
-                message.innerText = "My goat";
-            }
-            if (survivedTime === 20) {
-                message.innerText = "Stay determined.";
-                gameActive = false;
-            }
-        }, 1000);
-    </script>
+        }
+    });
+
+    // Win check
+    if (
+        player.x < flag.x + flag.width &&
+        player.x + player.width > flag.x &&
+        player.y < flag.y + flag.height &&
+        player.y + player.height > flag.y
+    ) {
+        message.innerText = "You made it. Keep climbing.";
+    }
+}
+
+function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Player
+    ctx.fillStyle = "red";
+    ctx.fillRect(player.x, player.y, player.width, player.height);
+
+    // Platforms
+    ctx.fillStyle = "purple";
+    platforms.forEach(p => {
+        ctx.fillRect(p.x, p.y, p.width, p.height);
+    });
+
+    // Flag
+    ctx.fillStyle = "white";
+    ctx.fillRect(flag.x, flag.y, flag.width, flag.height);
+}
+
+function gameLoop() {
+    update();
+    draw();
+    requestAnimationFrame(gameLoop);
+}
+
+gameLoop();
+</script>
 
 </body>
 </html>
