@@ -73,78 +73,114 @@
 	<a href="Otter.html">Otter Cam</a>
 	<a href="image.html">Secret</a>
 </div>
-    <title>Celeste</title>
-    <style>
-        body {
-            margin: 0;
-            background: #1a1a2e;
-            overflow: hidden;
-            font-family: monospace;
-            color: white;
-        }
-
-        canvas {
-            display: block;
-            margin: auto;
-            background: #16213e;
-            border: 4px solid white;
-        }
-
-        #message {
-            text-align: center;
-            margin-top: 10px;
-        }
-    </style>
+<!DOCTYPE html>
+<html>
+<head>
+<title>Climb.</title>
+<style>
+body {
+    margin: 0;
+    overflow: hidden;
+    background: #0f0f1a;
+    font-family: monospace;
+    color: white;
+}
+canvas {
+    display: block;
+    margin: auto;
+    background: #1a1a2e;
+    border: 4px solid white;
+}
+#ui {
+    text-align: center;
+    margin-top: 5px;
+}
+</style>
 </head>
 <body>
 
-<canvas id="game" width="800" height="400"></canvas>
-<div id="message">Reach the flag.</div>
+<canvas id="game" width="600" height="400"></canvas>
+<div id="ui">Arrow keys to move. Up to jump. I think X to dash maybe?</div>
 
 <script>
 const canvas = document.getElementById("game");
 const ctx = canvas.getContext("2d");
-const message = document.getElementById("message");
 
 let keys = {};
 document.addEventListener("keydown", e => keys[e.key] = true);
 document.addEventListener("keyup", e => keys[e.key] = false);
 
-const gravity = 0.5;
+const gravity = 0.4;
+const friction = 0.8;
+
+let cameraY = 0;
 
 let player = {
     x: 50,
-    y: 300,
+    y: 1800,
     width: 20,
     height: 20,
     dx: 0,
     dy: 0,
-    onGround: false
+    onGround: false,
+    canDash: true,
+    spawnX: 50,
+    spawnY: 1800
 };
 
-let platforms = [
-    {x: 0, y: 350, width: 800, height: 50},
-    {x: 150, y: 280, width: 120, height: 20},
-    {x: 320, y: 220, width: 120, height: 20},
-    {x: 500, y: 170, width: 120, height: 20},
-    {x: 680, y: 130, width: 100, height: 20}
-];
+let worldHeight = 2000;
 
-let flag = { x: 740, y: 90, width: 20, height: 40 };
+let platforms = [];
+
+// Generate mountain platforms
+for (let i = 0; i < 40; i++) {
+    platforms.push({
+        x: Math.random() * 500,
+        y: 1950 - i * 50,
+        width: 100,
+        height: 15
+    });
+}
+
+// Ground
+platforms.push({x:0, y:1980, width:600, height:40});
+
+// Flag at top
+let flag = {x: 260, y: 50, width: 30, height: 40};
+
+function resetPlayer() {
+    player.x = player.spawnX;
+    player.y = player.spawnY;
+    player.dx = 0;
+    player.dy = 0;
+}
 
 function update() {
+
     // Movement
-    if (keys["ArrowLeft"]) player.dx = -3;
-    else if (keys["ArrowRight"]) player.dx = 3;
-    else player.dx = 0;
+    if (keys["ArrowLeft"]) player.dx -= 0.5;
+    if (keys["ArrowRight"]) player.dx += 0.5;
+
+    player.dx *= friction;
 
     // Jump
     if (keys["ArrowUp"] && player.onGround) {
-        player.dy = -10;
+        player.dy = -9;
         player.onGround = false;
+        player.canDash = true;
+    }
+
+    // Dash
+    if (keys["x"] && player.canDash) {
+        if (keys["ArrowLeft"]) player.dx = -12;
+        else if (keys["ArrowRight"]) player.dx = 12;
+        else player.dy = -12;
+
+        player.canDash = false;
     }
 
     player.dy += gravity;
+
     player.x += player.dx;
     player.y += player.dy;
 
@@ -166,6 +202,20 @@ function update() {
         }
     });
 
+    // Wall boundaries
+    if (player.x < 0) player.x = 0;
+    if (player.x + player.width > canvas.width)
+        player.x = canvas.width - player.width;
+
+    // Fall death
+    if (player.y > worldHeight) {
+        resetPlayer();
+    }
+
+    // Camera follow
+    cameraY = player.y - 200;
+    if (cameraY < 0) cameraY = 0;
+
     // Win check
     if (
         player.x < flag.x + flag.width &&
@@ -173,12 +223,16 @@ function update() {
         player.y < flag.y + flag.height &&
         player.y + player.height > flag.y
     ) {
-        message.innerText = "You made it. Keep climbing.";
+        document.getElementById("ui").innerText =
+            "WOOOO!!!!!!";
     }
 }
 
 function draw() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+
+    ctx.save();
+    ctx.translate(0, -cameraY);
 
     // Player
     ctx.fillStyle = "red";
@@ -193,15 +247,17 @@ function draw() {
     // Flag
     ctx.fillStyle = "white";
     ctx.fillRect(flag.x, flag.y, flag.width, flag.height);
+
+    ctx.restore();
 }
 
-function gameLoop() {
+function loop() {
     update();
     draw();
-    requestAnimationFrame(gameLoop);
+    requestAnimationFrame(loop);
 }
 
-gameLoop();
+loop();
 </script>
 
 </body>
